@@ -1,11 +1,6 @@
-package com.sample.foo.simplerssreader;
-
-/**
- * Created by obaro on 27/11/2016.
- */
+package pl.kelostrada.cardfightpolskanews;
 
 public class RssFeedModel {
-
     public String title;
     public String link;
     public String description;
