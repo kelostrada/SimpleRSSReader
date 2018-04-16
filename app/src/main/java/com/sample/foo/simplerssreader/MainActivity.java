@@ -30,8 +30,6 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
 
     private RecyclerView mRecyclerView;
-    private EditText mEditText;
-    private Button mFetchFeedButton;
     private SwipeRefreshLayout mSwipeLayout;
     private TextView mFeedTitleTextView;
     private TextView mFeedLinkTextView;
@@ -48,8 +46,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        mEditText = (EditText) findViewById(R.id.rssFeedEditText);
-        mFetchFeedButton = (Button) findViewById(R.id.fetchFeedButton);
         mSwipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
         mFeedTitleTextView = (TextView) findViewById(R.id.feedTitle);
         mFeedDescriptionTextView = (TextView) findViewById(R.id.feedDescription);
@@ -57,18 +53,14 @@ public class MainActivity extends AppCompatActivity {
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        mFetchFeedButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new FetchFeedTask().execute((Void) null);
-            }
-        });
         mSwipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 new FetchFeedTask().execute((Void) null);
             }
         });
+
+        new FetchFeedTask().execute((Void) null);
     }
 
     public List<RssFeedModel> parseFeed(InputStream inputStream) throws XmlPullParserException, IOException {
@@ -83,7 +75,6 @@ public class MainActivity extends AppCompatActivity {
             xmlPullParser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
             xmlPullParser.setInput(inputStream, null);
 
-            xmlPullParser.nextTag();
             while (xmlPullParser.next() != XmlPullParser.END_DOCUMENT) {
                 int eventType = xmlPullParser.getEventType();
 
@@ -146,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
 
     private class FetchFeedTask extends AsyncTask<Void, Void, Boolean> {
 
-        private String urlLink;
+        private String urlLink = "http://cardfight.pl/nowosci-i-ogloszenia/?action=.xml;sa=news;type=rss2";
 
         @Override
         protected void onPreExecute() {
@@ -157,18 +148,11 @@ public class MainActivity extends AppCompatActivity {
             mFeedTitleTextView.setText("Feed Title: " + mFeedTitle);
             mFeedDescriptionTextView.setText("Feed Description: " + mFeedDescription);
             mFeedLinkTextView.setText("Feed Link: " + mFeedLink);
-            urlLink = mEditText.getText().toString();
         }
 
         @Override
         protected Boolean doInBackground(Void... voids) {
-            if (TextUtils.isEmpty(urlLink))
-                return false;
-
             try {
-                if(!urlLink.startsWith("http://") && !urlLink.startsWith("https://"))
-                    urlLink = "http://" + urlLink;
-
                 URL url = new URL(urlLink);
                 InputStream inputStream = url.openConnection().getInputStream();
                 mFeedModelList = parseFeed(inputStream);
