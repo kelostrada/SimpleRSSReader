@@ -15,6 +15,10 @@ import android.widget.Toast;
 
 import pl.kelostrada.cardfightpolskanews.R;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -65,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
         String title = null;
         String link = null;
         String description = null;
-        Drawable picture = null;
         boolean isItem = false;
         List<RssFeedModel> items = new ArrayList<>();
 
@@ -108,12 +111,15 @@ public class MainActivity extends AppCompatActivity {
                     link = result;
                 } else if (name.equalsIgnoreCase("description")) {
                     description = result;
-                    picture = getResources().getDrawable( R.drawable.a );
                 }
 
                 if (title != null && link != null && description != null) {
                     if(isItem) {
-                        RssFeedModel item = new RssFeedModel(title, link, description, picture);
+                        Document doc = Jsoup.parse(result);
+                        Element e = doc.select("img").first();
+                        String pictureUrl = e != null ? e.attr("abs:src") : "";
+
+                        RssFeedModel item = new RssFeedModel(title, link, description, pictureUrl);
                         items.add(item);
                     }
                     else {

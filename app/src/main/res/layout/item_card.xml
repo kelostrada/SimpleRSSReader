@@ -15,11 +15,12 @@
   ~ limitations under the License.
   -->
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_view"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/card_height"
+    android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:layout_marginBottom="@dimen/md_keylines"
     android:layout_marginLeft="@dimen/md_keylines"
@@ -30,36 +31,36 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
+        <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/card_image"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/card_image_height"
-            android:scaleType="centerCrop"
-            tools:src="@drawable/a" />
+            android:layout_height="220dp"
+            fresco:actualImageScaleType="fitStart"
+            fresco:placeholderImage="@drawable/placeholder"
+            />
 
         <TextView
             android:id="@+id/card_title"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/card_title_height"
-            android:layout_alignBottom="@+id/card_image"
-            android:layout_marginLeft="@dimen/md_keylines"
-            tools:text="@string/item_title"
-            android:textAppearance="@style/TextAppearance.AppCompat.Title"
-            android:textColor="@color/white" />
-
-        <TextView
-            android:id="@+id/card_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/card_image"
             android:layout_marginLeft="@dimen/md_keylines"
             android:layout_marginTop="@dimen/md_keylines"
+            tools:text="@string/item_title"
+            android:textSize="@dimen/article_heading"
+            android:textColor="@color/dark_grey" />
+
+        <TextView
+            android:id="@+id/card_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/card_title"
+            android:layout_marginLeft="@dimen/md_keylines"
+            android:layout_marginTop="@dimen/md_keylines"
             android:layout_marginBottom="@dimen/md_keylines"
             android:layout_marginRight="@dimen/md_keylines"
             tools:text="@string/item_desc"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:textColor="@color/dark_grey"
+            android:textColor="@color/medium_grey"
             android:textSize="@dimen/article_subheading" />
 
         <Button

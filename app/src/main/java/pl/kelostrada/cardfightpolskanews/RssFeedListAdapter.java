@@ -7,9 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.graphics.drawable.Drawable;
+
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
 
@@ -19,15 +19,15 @@ public class RssFeedListAdapter
     private List<RssFeedModel> mRssFeedModels;
 
     public static class FeedModelViewHolder extends RecyclerView.ViewHolder {
-        public ImageView picture;
+        public SimpleDraweeView picture;
         public TextView name;
         public TextView description;
 
         public FeedModelViewHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.item_card, parent, false));
-            picture = (ImageView) itemView.findViewById(R.id.card_image);
-            name = (TextView) itemView.findViewById(R.id.card_title);
-            description = (TextView) itemView.findViewById(R.id.card_text);
+            picture = itemView.findViewById(R.id.card_image);
+            name = itemView.findViewById(R.id.card_title);
+            description = itemView.findViewById(R.id.card_text);
 
             // Adding Snackbar to Action Button inside card
             Button button = (Button)itemView.findViewById(R.id.action_button);
@@ -65,7 +65,7 @@ public class RssFeedListAdapter
     public void onBindViewHolder(FeedModelViewHolder holder, int position) {
         final RssFeedModel rssFeedModel = mRssFeedModels.get(position);
 
-        holder.picture.setImageDrawable(rssFeedModel.picture);
+        holder.picture.setImageURI(rssFeedModel.pictureUri);
         holder.name.setText(rssFeedModel.title);
         holder.description.setText(rssFeedModel.description);
     }
