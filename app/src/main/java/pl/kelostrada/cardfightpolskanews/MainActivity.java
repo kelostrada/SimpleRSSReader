@@ -1,11 +1,13 @@
 package pl.kelostrada.cardfightpolskanews;
 
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.Xml;
 import android.widget.TextView;
@@ -28,9 +30,6 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipeLayout;
-    private TextView mFeedTitleTextView;
-    private TextView mFeedLinkTextView;
-    private TextView mFeedDescriptionTextView;
 
     private List<RssFeedModel> mFeedModelList;
     private String mFeedTitle;
@@ -42,13 +41,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Adding Toolbar to Main screen
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         mSwipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
-        mFeedTitleTextView = (TextView) findViewById(R.id.feedTitle);
-        mFeedDescriptionTextView = (TextView) findViewById(R.id.feedDescription);
-        mFeedLinkTextView = (TextView) findViewById(R.id.feedLink);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setHasFixedSize(true);
 
         mSwipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -64,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
         String title = null;
         String link = null;
         String description = null;
+        Drawable picture = null;
         boolean isItem = false;
         List<RssFeedModel> items = new ArrayList<>();
 
@@ -106,11 +108,12 @@ public class MainActivity extends AppCompatActivity {
                     link = result;
                 } else if (name.equalsIgnoreCase("description")) {
                     description = result;
+                    picture = getResources().getDrawable( R.drawable.a );
                 }
 
                 if (title != null && link != null && description != null) {
                     if(isItem) {
-                        RssFeedModel item = new RssFeedModel(title, link, description);
+                        RssFeedModel item = new RssFeedModel(title, link, description, picture);
                         items.add(item);
                     }
                     else {
@@ -134,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
 
     private class FetchFeedTask extends AsyncTask<Void, Void, Boolean> {
 
-        private String urlLink = "http://cardfight.pl/nowosci-i-ogloszenia/?action=.xml;sa=news;type=rss2";
+        private String urlLink = "http://cardfight.pl/nowe-dodatki/?action=.xml;sa=news;type=rss2";
 
         @Override
         protected void onPreExecute() {
@@ -142,9 +145,6 @@ public class MainActivity extends AppCompatActivity {
             mFeedTitle = null;
             mFeedLink = null;
             mFeedDescription = null;
-            mFeedTitleTextView.setText(mFeedTitle);
-            mFeedDescriptionTextView.setText(mFeedDescription);
-            mFeedLinkTextView.setText("Link: " + mFeedLink);
         }
 
         @Override
@@ -167,11 +167,9 @@ public class MainActivity extends AppCompatActivity {
             mSwipeLayout.setRefreshing(false);
 
             if (success) {
-                mFeedTitleTextView.setText(mFeedTitle);
-                mFeedDescriptionTextView.setText(mFeedDescription);
-                mFeedLinkTextView.setText("Link: " + mFeedLink);
                 // Fill RecyclerView
-                mRecyclerView.setAdapter(new RssFeedListAdapter(mFeedModelList));
+                RssFeedListAdapter adapter = new RssFeedListAdapter(mFeedModelList);
+                mRecyclerView.setAdapter(adapter);
             } else {
                 Toast.makeText(MainActivity.this,
                         "Enter a valid Rss feed url",
