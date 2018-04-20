@@ -1,6 +1,5 @@
 package pl.kelostrada.cardfightpolskanews;
 
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 
 public class RssFeedModel {

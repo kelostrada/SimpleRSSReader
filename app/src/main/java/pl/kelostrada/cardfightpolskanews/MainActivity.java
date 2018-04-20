@@ -1,6 +1,5 @@
 package pl.kelostrada.cardfightpolskanews;
 
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -10,15 +9,11 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.Xml;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import pl.kelostrada.cardfightpolskanews.R;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -118,8 +113,9 @@ public class MainActivity extends AppCompatActivity {
                         Document doc = Jsoup.parse(result);
                         Element e = doc.select("img").first();
                         String pictureUrl = e != null ? e.attr("abs:src") : "";
+                        String descriptionText = doc.text();
 
-                        RssFeedModel item = new RssFeedModel(title, link, description, pictureUrl);
+                        RssFeedModel item = new RssFeedModel(title, link, descriptionText, pictureUrl);
                         items.add(item);
                     }
                     else {
