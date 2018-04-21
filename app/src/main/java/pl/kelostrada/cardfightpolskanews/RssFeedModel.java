@@ -8,10 +8,10 @@ public class RssFeedModel {
     public String description;
     public Uri pictureUri;
 
-    public RssFeedModel(String title, String link, String description, String pictureUrl) {
+    public RssFeedModel(String title, String link, String description, Uri pictureUri) {
         this.title = title;
         this.link = link;
         this.description = description;
-        this.pictureUri = Uri.parse(pictureUrl);
+        this.pictureUri = pictureUri;
     }
 }

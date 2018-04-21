@@ -57,9 +57,7 @@ public class RssFeedListAdapter
         }
     }
 
-    public RssFeedListAdapter(List<RssFeedModel> rssFeedModels) {
-        mRssFeedModels = rssFeedModels;
-    }
+    public RssFeedListAdapter(List<RssFeedModel> rssFeedModels) { mRssFeedModels = rssFeedModels; }
 
     @Override
     public FeedModelViewHolder onCreateViewHolder(ViewGroup parent, int type) {

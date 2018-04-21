@@ -1,5 +1,6 @@
 package pl.kelostrada.cardfightpolskanews;
 
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -115,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
                         String pictureUrl = e != null ? e.attr("abs:src") : "";
                         String descriptionText = doc.text();
 
-                        RssFeedModel item = new RssFeedModel(title, link, descriptionText, pictureUrl);
+                        RssFeedModel item = new RssFeedModel(title, link, descriptionText, Uri.parse(pictureUrl));
                         items.add(item);
                     }
                     else {

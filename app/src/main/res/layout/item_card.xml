@@ -35,8 +35,10 @@
             android:id="@+id/card_image"
             android:layout_width="match_parent"
             android:layout_height="220dp"
-            fresco:actualImageScaleType="fitStart"
+            android:scaleType="fitXY"
+            fresco:actualImageScaleType="fitXY"
             fresco:placeholderImage="@drawable/placeholder"
+            fresco:placeholderImageScaleType="fitXY"
             />
 
         <TextView
@@ -72,7 +74,7 @@
             android:layout_marginBottom="@dimen/md_keylines"
             style="?android:attr/borderlessButtonStyle"
             android:textColor="?attr/colorPrimary"
-            android:text="GO TO WEBSITE"/>
+            android:text="MORE..."/>
 
         <ImageButton
             android:id="@+id/favorite_button"
