@@ -74,7 +74,7 @@
             android:layout_marginBottom="@dimen/md_keylines"
             style="?android:attr/borderlessButtonStyle"
             android:textColor="?attr/colorPrimary"
-            android:text="MORE..."/>
+            android:text="WIĘCEJ..."/>
 
         <ImageButton
             android:id="@+id/favorite_button"

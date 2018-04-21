@@ -175,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
                 mRecyclerView.setAdapter(adapter);
             } else {
                 Toast.makeText(MainActivity.this,
-                        "Enter a valid Rss feed url",
+                        "Brak dostępu do internetu, spróbuj za chwilę...",
                         Toast.LENGTH_LONG).show();
             }
         }

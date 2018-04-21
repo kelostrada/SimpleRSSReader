@@ -1,8 +1,12 @@
 package pl.kelostrada.cardfightpolskanews;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +30,8 @@ public class RssFeedListAdapter
         public TextView description;
         public Button link;
 
+        public boolean isFavourite = false;
+
         public FeedModelViewHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.item_card, parent, false));
             picture = itemView.findViewById(R.id.card_image);
@@ -44,13 +50,29 @@ public class RssFeedListAdapter
                 }
             });
 
-            ImageButton favoriteImageButton =
-                    (ImageButton) itemView.findViewById(R.id.favorite_button);
+            final ImageButton favoriteImageButton = itemView.findViewById(R.id.favorite_button);
+
             favoriteImageButton.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
-                    Snackbar.make(v, "Added to Favorite",
-                            Snackbar.LENGTH_LONG).show();
+                    isFavourite = !isFavourite;
+
+                    if (isFavourite) {
+                        int color = ContextCompat.getColor(v.getContext(), R.color.button_red);
+                        favoriteImageButton.setColorFilter(color);
+
+                        Snackbar.make(v, "Dodane do ulubionych",
+                                Snackbar.LENGTH_LONG).show();
+                    } else {
+                        int color = ContextCompat.getColor(v.getContext(), R.color.button_grey);
+                        favoriteImageButton.setColorFilter(color);
+
+                        Snackbar.make(v, "Usunięte z ulubionych",
+                                Snackbar.LENGTH_LONG).show();
+                    }
+
+
+
                 }
             });
 
